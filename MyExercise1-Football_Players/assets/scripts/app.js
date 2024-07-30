@@ -1,6 +1,6 @@
 const add = document.getElementById("addBtn");
 const reset = document.getElementById("resetBtn");
-const remove = document.getElementById("removeBtn");
+// const remove = document.getElementById("removeBtn");
 const userInputs = document.querySelectorAll("input");
 const listRoot = document.getElementById("playerList");
 const defaultText = document.getElementById("defaultText");
@@ -61,12 +61,21 @@ const addHandler = () => {
 };
 
 // REMOVING FUNCTION
-const removeHandler = () => {
-  alert("remove");
+const removeHandler = (playerId) => {
+  let playerIndex = 0;
+  for (const player of players) {
+    if (player.id === playerId) {
+      break;
+    }
+    playerIndex++;
+  }
+  players.splice(playerIndex, 1);
+  listRoot.children[playerIndex - 1].remove();
+  updateUI();
 };
 
 // RENDERING PLAYER LIST FUNCTION
-const renderNewPlayer = (name, picture, club, value) => {
+const renderNewPlayer = (id, name, picture, club, value) => {
   const newPlayer = document.createElement("li");
   newPlayer.className = "rounded-lg overflow-hidden";
   newPlayer.innerHTML = `
@@ -84,9 +93,13 @@ const renderNewPlayer = (name, picture, club, value) => {
     </div>
   `;
 
+  const removeButton = newPlayer.querySelector("button");
+  console.log(removeButton);
+  removeButton.addEventListener("click", removeHandler.bind(null, id));
+
   listRoot.append(newPlayer);
 };
 
 add.addEventListener("click", addHandler);
 reset.addEventListener("click", resetHandler);
-remove.addEventListener("click", removeHandler);
+// remove.addEventListener("click", removeHandler);
