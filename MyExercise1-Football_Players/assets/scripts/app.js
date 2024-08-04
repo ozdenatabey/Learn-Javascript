@@ -62,7 +62,7 @@ const addHandler = () => {
 
 // REMOVING FUNCTION
 const removeHandler = (playerId) => {
-  let playerIndex = 0;
+  let playerIndex = -1;
   for (const player of players) {
     if (player.id === playerId) {
       break;
@@ -70,12 +70,12 @@ const removeHandler = (playerId) => {
     playerIndex++;
   }
   players.splice(playerIndex, 1);
-  listRoot.children[playerIndex - 1].remove();
+  listRoot.children[playerIndex].remove();
   updateUI();
 };
 
 // RENDERING PLAYER LIST FUNCTION
-const renderNewPlayer = (id, name, picture, club, value) => {
+const renderNewPlayer = (name, picture, club, value, id) => {
   const newPlayer = document.createElement("li");
   newPlayer.className = "rounded-lg overflow-hidden";
   newPlayer.innerHTML = `
@@ -88,11 +88,10 @@ const renderNewPlayer = (id, name, picture, club, value) => {
         <p>${value} mil. €</p>
         <button
           class="absolute right-4 bottom-3 bg-gray-300 py-1 px-3 text-sm rounded-full border-2 border-gray-600 text-gray-800 hover:bg-gray-600 hover:text-white active:scale-95 shadow-lg"
-          id="removeBtn">Remove</button>
+          >Remove</button>
       </div>
     </div>
   `;
-
   const removeButton = newPlayer.querySelector("button");
   console.log(removeButton);
   removeButton.addEventListener("click", removeHandler.bind(null, id));
